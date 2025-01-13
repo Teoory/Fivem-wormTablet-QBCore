@@ -1,0 +1,2655 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: none;
+    font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    background: url('https://c4.wallpaperflare.com/wallpaper/666/294/533/dragon-kali-linux-nethunter-linux-photoshop-wallpaper-preview.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+.desktop {
+    width: 100%;
+    height: calc(100% - 40px);
+    position: relative;
+}
+
+/* Masaüstü İkonları */
+.desktop-icon {
+    width: 80px;
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+    cursor: pointer;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+
+.desktop-icon i {
+    font-size: 40px;
+    margin-bottom: 5px;
+}
+
+.desktop-icon span {
+    text-align: center;
+    font-size: 12px;
+}
+
+/* Pencereler */
+.window {
+    position: absolute;
+    min-width: 500px;
+    min-height: 300px;
+    background: #1a1a1a;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    display: none;
+    resize: both;
+    overflow: hidden;
+}
+
+.window::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 15px;
+    height: 15px;
+    cursor: se-resize;
+    background: transparent;
+}
+
+.window-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #333;
+    padding: 10px;
+    border-radius: 5px 5px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: move;
+    user-select: none;
+    height: 30px;
+}
+
+.window-title {
+    color: white;
+    font-weight: bold;
+}
+
+.window-controls {
+    display: flex;
+    gap: 5px;
+}
+
+.window-controls button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 2px 8px;
+    border-radius: 3px;
+}
+
+.window-controls button:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.window-content {
+    height: calc(100% - 30px);
+    position: relative;
+    background: #1a1a1a;
+    overflow: hidden;
+}
+
+.terminal-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+}
+
+.terminal-output-wrapper {
+    flex: 1;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 10px;
+    margin-bottom: 40px;
+}
+
+.terminal-output {
+    text-align: left;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-y: auto;
+}
+
+.terminal-input-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #1a1a1a;
+    padding: 10px;
+    border-top: 1px solid #333;
+    display: flex;
+    align-items: center;
+    height: 40px;
+}
+
+#terminal-input {
+    background: transparent;
+    border: none;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    flex: 1;
+    outline: none;
+    margin-left: 5px;
+}
+
+/* Scrollbar stilleri */
+.terminal-output-wrapper::-webkit-scrollbar {
+    width: 8px;
+}
+
+.terminal-output-wrapper::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+.terminal-output-wrapper::-webkit-scrollbar-thumb {
+    background-color: #00ff00;
+    border-radius: 4px;
+}
+
+/* Firefox için scrollbar */
+.terminal-output-wrapper {
+    scrollbar-width: thin;
+    scrollbar-color: #00ff00 #1a1a1a;
+}
+
+/* Maximize edilmiş pencere stili */
+.window.maximized {
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: calc(100% - 40px) !important;
+    border-radius: 0;
+}
+
+.window.maximized .window-header {
+    border-radius: 0;
+}
+
+.prompt {
+    color: #00ff00;
+    margin-right: 5px;
+}
+
+.cursor {
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.command-line {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+}
+
+.command-prompt {
+    color: #00ff00;
+    margin-right: 5px;
+}
+
+.command-output {
+    color: #00ff00;
+    margin-left: 20px;
+}
+
+.error-output {
+    color: #ff0000;
+    margin-left: 20px;
+}
+
+/* Chat Özelleştirme */
+.chat-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+.chat-input {
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #333;
+    background: #222;
+    color: white;
+    border-radius: 3px;
+}
+
+.chat-input button {
+    padding: 8px 15px;
+    background: #444;
+    border: none;
+    color: white;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+/* Taskbar */
+.taskbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: rgb(17, 17, 17);
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.start-menu {
+    padding: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.taskbar-items {
+    flex: 1;
+}
+
+.taskbar-time {
+    color: #00ff00;
+    padding: 10px 15px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    border-left: 1px solid #333;
+    display: flex;
+    align-items: center;
+}
+
+/* Pencere Durumları */
+.window.minimized {
+    display: none;
+}
+
+.window.maximized {
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: calc(100% - 40px) !important;
+    border-radius: 0;
+}
+
+.window.maximized .window-header {
+    border-radius: 0;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.shake {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* Terminal uyarı mesajları için renk kodları */
+.terminal-text span.warning {
+    color: #ff0000;
+    font-weight: bold;
+}
+
+.prompt {
+    color: #00ff00;
+}
+
+/* Terminal penceresi minimum boyutları */
+#terminal-window {
+    min-width: 500px;
+    min-height: 300px;
+}
+
+/* Terminal içeriği minimum boyutları */
+.window-content {
+    min-height: 200px; /* Minimum içerik yüksekliği */
+}
+
+/* City Database Stilleri */
+.city-db-container {
+    padding: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.search-bar {
+    margin-bottom: 20px;
+}
+
+#city-db-search {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #00ff00;
+    background: #1a1a1a;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    outline: none;
+}
+
+.citizens-table {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.citizens-table table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #00ff00;
+}
+
+.citizens-table th,
+.citizens-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #333;
+}
+
+.citizens-table th {
+    background: #333;
+    font-weight: bold;
+}
+
+.citizens-table tr:hover {
+    background: rgba(0, 255, 0, 0.1);
+}
+
+.jail-status {
+    color: #ff0000;
+}
+
+.online-status {
+    color: #00ff00;
+    font-weight: bold;
+}
+
+.citizens-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #333;
+    white-space: nowrap;
+}
+
+.citizens-table tr:nth-child(even) {
+    background: rgba(0, 255, 0, 0.05);
+}
+
+/* Responsive tablo için yatay scroll */
+.citizens-table {
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+/* Auth form styles */
+.auth-form {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.auth-form input {
+    padding: 10px;
+    background: #1a1a1a;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+}
+
+.auth-form button {
+    padding: 10px;
+    background: #00ff00;
+    color: #1a1a1a;
+    border: none;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+}
+
+.auth-form button:hover {
+    background: #00cc00;
+}
+
+.error-message {
+    color: #ff0000;
+    font-size: 14px;
+    text-align: center;
+}
+
+#login-window, #register-window {
+    width: 300px;
+    height: auto;
+}
+
+/* Notification styles */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    border-radius: 5px;
+    font-family: 'Courier New', monospace;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: slideIn 0.5s ease;
+    max-width: 300px;
+    word-break: break-all;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid #00ff00;
+    color: #00ff00;
+}
+
+.notification.success {
+    background: rgba(0, 255, 0, 0.2);
+    border: 1px solid #00ff00;
+    color: #00ff00;
+}
+
+.notification.error {
+    background: rgba(255, 0, 0, 0.2);
+    border: 1px solid #ff0000;
+    color: #ff0000;
+}
+
+.notification i {
+    font-size: 20px;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Button styles */
+.auth-form button:disabled {
+    background: #666;
+    cursor: not-allowed;
+}
+
+/* Chat styles */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-height: 900px;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.chat-message {
+    margin-bottom: 10px;
+    max-width: 80%;
+    padding: 5px 10px;
+    border-radius: 6px;
+}
+
+.chat-message.own {
+    background: rgba(0, 255, 0, 0.1);
+    border: 1px solid #00ff00;
+    align-self: flex-end;
+}
+
+.chat-message.other {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #666;
+    align-self: flex-start;
+}
+
+.message-header {
+    font-size: 12px;
+    margin-bottom: 2px;
+    padding-bottom: 2px;
+    opacity: 0.9;
+    border-bottom: 1px solid #666;
+    color: #666;
+    font-weight: bold;
+}
+
+.message-time {
+    float: right;
+    font-size: 11px;
+    font-weight: normal;
+}
+
+.chat-input-container {
+    display: flex;
+    gap: 10px;
+    padding: 15px;
+    border-top: 1px solid #333;
+    background: #1a1a1a;
+}
+
+#chat-input {
+    flex: 1;
+    background: #1a1a1a;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    padding: 8px 12px;
+    font-family: 'Courier New', monospace;
+}
+
+#chat-send {
+    background: #00ff00;
+    color: #1a1a1a;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+}
+
+#chat-send:hover {
+    background: #00cc00;
+}
+
+/* Mail Window Styles */
+#mail-window {
+    min-width: 500px;
+    min-height: 300px;
+}
+
+.window-header {
+    height: 30px;
+    background: #1a1a1a;
+    border-bottom: 1px solid #00ff00;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    cursor: move;
+    user-select: none;
+}
+
+.window-content {
+    height: calc(100% - 30px);
+    overflow: hidden;
+    position: relative;
+}
+
+/* Resize handle için özel stil */
+#mail-window::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 15px;
+    height: 15px;
+    cursor: se-resize;
+    background: transparent;
+    
+}
+
+/* Mail container için düzeltme */
+.mail-container {
+    height: 100%;
+    display: flex;
+    position: relative;
+}
+
+.mail-actions {
+    display: flex;
+    gap: 10px;
+    padding: 15px;
+    border-bottom: 1px solid #333;
+}
+
+#new-mail-btn {
+    width: 100%;
+    padding: 10px;
+    background: #00ff00;
+    color: #1a1a1a;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+#new-mail-btn:hover {
+    background: #00cc00;
+}
+
+.mail-list {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.mail-item {
+    padding: 15px;
+    border-bottom: 1px solid #333;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.mail-direction-icon {
+    width: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 3px;
+}
+
+.mail-direction-received {
+    color: #00ff00;
+}
+
+.mail-direction-sent {
+    color: #ff9900;
+}
+
+.mail-content-wrapper {
+    flex: 1;
+}
+
+.mail-item.unread {
+    border-left: 3px solid #00ff00;
+    background: rgba(0, 255, 0, 0.05);
+}
+
+.mail-item.read {
+    border-left: 3px solid transparent;
+    opacity: 0.7;
+}
+
+.mail-item:hover {
+    background: rgba(0, 255, 0, 0.1);
+}
+
+.mail-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.mail-item-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mail-item-from {
+    font-weight: bold;
+}
+
+.unread-text {
+    color: #00ff00;
+}
+
+.read-text {
+    color: #808080;
+}
+
+.mail-status-icon {
+    display: inline-block;
+    width: 20px;
+    text-align: center;
+}
+
+.mail-status-sent {
+    color: #808080;
+}
+
+.mail-status-delivered {
+    color: #808080;
+}
+
+.mail-status-read {
+    color: #00ff00;
+}
+
+.mail-item-time {
+    color: #666;
+    font-size: 0.8em;
+}
+
+.mail-item-subject {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Sağ Taraf - Mail İçeriği */
+.mail-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #1a1a1a;
+}
+
+/* Mail Görüntüleme */
+.mail-view {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.mail-view-header {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #333;
+}
+
+.mail-view-header div {
+    margin-bottom: 8px;
+    color: #00ff00;
+}
+
+.mail-view-content {
+    color: #fff;
+    line-height: 1.6;
+}
+
+/* Boş Durum */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+    color: #00ff00;
+    opacity: 0.7;
+    text-align: center;
+}
+
+.empty-state i {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.empty-state p {
+    font-size: 16px;
+    font-family: 'Courier New', monospace;
+}
+
+.item-label, .item-amount {
+    color: #00ff00;
+    font-size: 12px;
+    text-align: center;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Mail Yazma Ekranı */
+.mail-compose {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.mail-compose-header {
+    padding: 15px;
+    border-bottom: 1px solid #333;
+}
+
+.mail-to {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#mail-to-username {
+    flex: 1;
+    padding: 8px;
+    background: #1a1a1a;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+}
+
+.mail-domain {
+    padding: 8px;
+    background: #333;
+    color: #666;
+}
+
+#mail-subject {
+    width: 100%;
+    padding: 8px;
+    background: #1a1a1a;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+}
+
+.mail-compose-actions {
+    padding: 15px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.mail-compose-actions button {
+    padding: 8px 20px;
+    cursor: pointer;
+}
+
+#send-mail-btn,
+#cancel-mail-btn {
+    padding: 8px 20px;
+    cursor: pointer;
+}
+
+#send-mail-btn {
+    background: #00ff00;
+    color: #1a1a1a;
+    border: none;
+}
+
+#cancel-mail-btn {
+    background: #333;
+}
+
+/* Mail view actions */
+.mail-view-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.delete-mail-btn {
+    background: #ff3333;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background 0.2s;
+}
+
+.delete-mail-btn:hover {
+    background: #cc0000;
+}
+
+.delete-mail-btn i {
+    font-size: 0.9em;
+}
+
+/* Onay kutusu stilleri */
+.confirm-dialog {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.confirm-dialog-content {
+    background: #1a1a1a;
+    border: 1px solid #00ff00;
+    width: 300px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.confirm-dialog-header {
+    padding: 15px;
+    border-bottom: 1px solid #333;
+}
+
+.confirm-dialog-header h3 {
+    margin: 0;
+    color: #00ff00;
+    font-size: 1.1em;
+}
+
+.confirm-dialog-body {
+    padding: 20px 15px;
+    color: #fff;
+}
+
+.confirm-dialog-body p {
+    margin: 0;
+}
+
+.confirm-dialog-footer {
+    padding: 15px
+}
+
+/* Taskbar Firewall Icon */
+.taskbar-firewall {
+    color: #ff0000;
+    padding: 10px 15px;
+    border-left: 1px solid #333;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.taskbar-firewall.active {
+    color: #00ff00;
+}
+
+.taskbar-firewall.inactive {
+    color: #ff0000;
+}
+
+/* Firewall Window */
+#firewall-window {
+    width: 400px;
+    height: 300px;
+}
+
+.firewall-container {
+    padding: 20px;
+    color: #00ff00;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.firewall-status {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: rgba(0, 255, 0, 0.1);
+    border: 1px solid #00ff00;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.status-icon {
+    font-size: 40px;
+}
+
+.status-info h3 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+}
+
+.status-text {
+    margin: 0;
+    font-size: 14px;
+}
+
+.status-value {
+    font-weight: bold;
+}
+
+.status-value.active {
+    color: #00ff00;
+}
+
+.status-value.inactive {
+    color: #ff0000;
+}
+
+.firewall-settings {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+
+.toggle-btn {
+    width: 200px;
+    padding: 15px;
+    background: #1a1a1a;
+    border: 2px solid #00ff00;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.toggle-btn:hover {
+    background: #00ff00;
+    color: #1a1a1a;
+}
+
+.toggle-btn.active {
+    background: #00ff00;
+    color: #1a1a1a;
+}
+
+.unread {
+    font-weight: bold;
+    background: rgba(0, 255, 0, 0.1);
+}
+
+/* Summernote editör stilleri */
+.note-editor.note-frame {
+    border-color: #333 !important;
+    background: #1a1a1a;
+    width: 100% !important; /* Maksimum genişlik */
+}
+
+.note-toolbar {
+    background: #1a1a1a !important;
+    border-bottom: 1px solid #333 !important;
+}
+
+.note-btn {
+    background: #1a1a1a !important;
+    border-color: #333 !important;
+    color: #00ff00 !important;
+}
+
+.note-btn:hover {
+    background: #333 !important;
+    color: #fff !important;
+}
+
+.note-editing-area {
+    background: #1a1a1a !important;
+}
+
+.note-editable {
+    background: #1a1a1a !important;
+    color: #fff !important;
+}
+
+.note-status-output {
+    color: #00ff00;
+}
+
+/* Görsel dialog stilleri */
+.note-image-dialog {
+    background: #1a1a1a !important;
+}
+
+.note-image-dialog .modal-content {
+    background: #1a1a1a !important;
+    border-color: #333 !important;
+}
+
+.note-image-dialog .modal-header {
+    display: none !important; /* Başlığı gizle */
+}
+
+.note-image-dialog .note-image-upload {
+    display: none !important; /* Dosya yükleme sekmesini gizle */
+}
+
+.note-image-dialog .form-control {
+    background: #1a1a1a !important;
+    border-color: #333 !important;
+    color: #fff !important;
+}
+
+.note-image-dialog .btn {
+    background: #1a1a1a !important;
+    border-color: #00ff00 !important;
+    color: #00ff00 !important;
+}
+
+.note-image-dialog .btn:hover {
+    background: #00ff00 !important;
+    color: #1a1a1a !important;
+}
+
+/* Mail görüntüleme içindeki görseller */
+.mail-view-content img {
+    max-width: 100%;
+    height: auto;
+    margin: 10px 0;
+    border-radius: 4px;
+    border: 1px solid #333;
+}
+
+/* Renk seçici stilleri */
+.note-color-palette {
+    background: #1a1a1a !important;
+}
+
+.note-color-palette .note-color-row {
+    margin: 2px 0;
+}
+
+/* Renk butonlarının görünmesi için */
+.note-color-btn {
+    width: 20px !important;
+    height: 20px !important;
+    margin: 2px !important;
+    padding: 0 !important;
+    border: 1px solid #333 !important;
+    display: inline-block !important;
+    background-color: inherit !important;
+}
+
+/* Her renk butonunun kendi rengini göstermesi için */
+[data-event="foreColor"] {
+    background-color: attr(data-value) !important;
+}
+
+[data-event="backColor"] {
+    background-color: attr(data-value) !important;
+}
+
+/* Renk butonları için özel stiller */
+.note-color-palette .note-color-row .note-color-btn[data-value="#FF0000"] { background-color: #FF0000 !important; }
+.note-color-palette .note-color-row .note-color-btn[data-value="#FF9C00"] { background-color: #FF9C00 !important; }
+.note-color-palette .note-color-row .note-color-btn[data-value="#FFFF00"] { background-color: #FFFF00 !important; }
+.note-color-palette .note-color-row .note-color-btn[data-value="#00FF00"] { background-color: #00FF00 !important; }
+.note-color-palette .note-color-row .note-color-btn[data-value="#00FFFF"] { background-color: #00FFFF !important; }
+.note-color-palette .note-color-row .note-color-btn[data-value="#0000FF"] { background-color: #0000FF !important; }
+.note-color-palette .note-color-row .note-color-btn[data-value="#9C00FF"] { background-color: #9C00FF !important; }
+.note-color-palette .note-color-row .note-color-btn[data-value="#FF00FF"] { background-color: #FF00FF !important; }
+.note-color-palette .note-color-row .note-color-btn[data-value="#000000"] { background-color: #000000 !important; }
+.note-color-palette .note-color-row .note-color-btn[data-value="#FFFFFF"] { background-color: #FFFFFF !important; }
+
+.note-color-palette .note-color-row .note-color-btn:hover {
+    border: 1px solid #00ff00 !important;
+}
+
+.note-dropdown-menu {
+    min-width: 216px !important;
+    background: #1a1a1a !important;
+    border: 1px solid #333 !important;
+    padding: 10px !important;
+}
+
+.note-dropdown-menu .note-palette-title {
+    color: #00ff00 !important;
+    font-size: 12px !important;
+    text-align: center !important;
+    margin: 5px 0 !important;
+}
+
+/* Renk seçici butonları */
+.note-btn.note-color-btn {
+    background-color: transparent !important;
+    border: 1px solid #333 !important;
+}
+
+.note-current-color-button {
+    color: #00ff00 !important;
+}
+
+/* CKEditor stilleri */
+.cke_chrome {
+    border-color: #333 !important;
+    background: #1a1a1a !important;
+}
+
+.cke_top {
+    background: #1a1a1a !important;
+    border-bottom: 1px solid #333 !important;
+}
+
+.cke_bottom {
+    background: #1a1a1a !important;
+    border-top: 1px solid #333 !important;
+}
+
+/* Toolbar butonları */
+.cke_button {
+    background: #1a1a1a !important;
+    border: 1px solid transparent !important;
+}
+
+.cke_button:hover {
+    background: #333 !important;
+    border-color: #00ff00 !important;
+}
+
+.cke_button_on {
+    background: #333 !important;
+    border-color: #00ff00 !important;
+}
+
+/* Renk paleti */
+.cke_panel {
+    background: #1a1a1a !important;
+    border-color: #333 !important;
+}
+
+.cke_colorblock {
+    background: #1a1a1a !important;
+    border-color: #333 !important;
+    padding: 5px !important;
+}
+
+.cke_colorblock a {
+    width: 20px !important;
+    height: 20px !important;
+    border: 1px solid #333 !important;
+    border-radius: 2px !important;
+}
+
+.cke_colorblock a:hover {
+    border-color: #00ff00 !important;
+}
+
+/* Dialog pencereleri */
+.cke_dialog_background_cover {
+    background-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.cke_dialog {
+    background: #1a1a1a !important;
+    border: 1px solid #00ff00 !important;
+}
+
+.cke_dialog_title {
+    background: #1a1a1a !important;
+    color: #00ff00 !important;
+    border-bottom: 1px solid #333 !important;
+}
+
+.cke_dialog_body {
+    background: #1a1a1a !important;
+}
+
+.cke_dialog_contents {
+    background: #1a1a1a !important;
+    color: #fff !important;
+}
+
+.cke_dialog_ui_input_text,
+.cke_dialog_ui_input_textarea {
+    background: #1a1a1a !important;
+    border: 1px solid #333 !important;
+    color: #fff !important;
+}
+
+.cke_dialog_footer {
+    background: #1a1a1a !important;
+    border-top: 1px solid #333 !important;
+}
+
+.cke_dialog_ui_button {
+    background: #1a1a1a !important;
+    border: 1px solid #00ff00 !important;
+    color: #00ff00 !important;
+}
+
+.cke_dialog_ui_button:hover {
+    background: #00ff00 !important;
+    color: #1a1a1a !important;
+}
+
+/* TinyMCE editör stilleri */
+.tox.tox-tinymce {
+    border: 1px solid #333 !important;
+}
+
+.tox .tox-toolbar,
+.tox .tox-toolbar__primary,
+.tox .tox-toolbar__overflow {
+    background: #1a1a1a !important;
+    border-bottom: 1px solid #333 !important;
+}
+
+.tox .tox-tbtn {
+    color: #00ff00 !important;
+}
+
+.tox .tox-tbtn:hover {
+    background: #333 !important;
+}
+
+.tox .tox-tbtn--enabled,
+.tox .tox-tbtn--enabled:hover {
+    background: #333 !important;
+    color: #00ff00 !important;
+}
+
+/* Renk seçici */
+.tox .tox-swatches {
+    background: #1a1a1a !important;
+    border: 1px solid #333 !important;
+}
+
+.tox .tox-swatch {
+    border: 1px solid #333 !important;
+}
+
+.tox .tox-swatch:hover {
+    border-color: #00ff00 !important;
+}
+
+/* Dialog pencereleri */
+.tox .tox-dialog {
+    background: #1a1a1a !important;
+    border: 1px solid #00ff00 !important;
+}
+
+.tox .tox-dialog__header {
+    background: #1a1a1a !important;
+    color: #00ff00 !important;
+    border-bottom: 1px solid #333 !important;
+}
+
+.tox .tox-dialog__body {
+    background: #1a1a1a !important;
+    color: #fff !important;
+}
+
+.tox .tox-dialog__footer {
+    background: #1a1a1a !important;
+    border-top: 1px solid #333 !important;
+}
+
+.tox .tox-textfield,
+.tox .tox-textarea {
+    background: #1a1a1a !important;
+    border: 1px solid #333 !important;
+    color: #fff !important;
+}
+
+.tox .tox-button {
+    background: #1a1a1a !important;
+    border: 1px solid #00ff00 !important;
+    color: #00ff00 !important;
+}
+
+.tox .tox-button:hover {
+    background: #00ff00 !important;
+    color: #1a1a1a !important;
+}
+
+/* Quill editör stilleri */
+.ql-toolbar.ql-snow {
+    border: 1px solid #333 !important;
+    background: #1a1a1a !important;
+}
+
+.ql-container.ql-snow {
+    border: 1px solid #333 !important;
+    background: #1a1a1a !important;
+    color: #fff !important;
+    height: 300px !important;
+}
+
+.ql-editor {
+    color: #fff !important;
+}
+
+/* Toolbar butonları */
+.ql-snow .ql-stroke {
+    stroke: #00ff00 !important;
+}
+
+.ql-snow .ql-fill {
+    fill: #00ff00 !important;
+}
+
+.ql-snow .ql-picker {
+    color: #00ff00 !important;
+}
+
+.ql-snow .ql-picker-options {
+    background-color: #1a1a1a !important;
+    border-color: #333 !important;
+}
+
+.ql-snow .ql-picker-item:hover {
+    color: #fff !important;
+    background-color: #333 !important;
+}
+
+/* Renk seçici */
+.ql-color-picker .ql-picker-options {
+    padding: 5px !important;
+    width: 150px !important;
+}
+
+.ql-color-picker .ql-picker-item {
+    width: 20px !important;
+    height: 20px !important;
+    border: 1px solid #333 !important;
+}
+
+/* Görseller */
+.ql-editor img {
+    max-width: 100%;
+    height: auto;
+    margin: 10px 0;
+    border-radius: 4px;
+    border: 1px solid #333;
+}
+
+/* Görsel URL popup stilleri */
+.image-url-popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #1a1a1a;
+    border: 1px solid #00ff00;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.image-url-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#image-url-input {
+    width: 300px;
+    padding: 8px;
+    background: #1a1a1a;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+}
+
+.image-url-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.image-url-buttons button {
+    padding: 8px 15px;
+    background: #1a1a1a;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.image-url-buttons button:hover {
+    background: #00ff00;
+    color: #1a1a1a;
+}
+
+/* Görsel boyutlandırma popup stilleri */
+.image-resize-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #1a1a1a;
+    border: 1px solid #00ff00;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.image-resize-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.size-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.size-buttons button {
+    padding: 8px 15px;
+    background: #1a1a1a;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.size-buttons button:hover {
+    background: #00ff00;
+    color: #1a1a1a;
+}
+
+.custom-size {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+}
+
+.custom-size input {
+    width: 80px;
+    padding: 8px;
+    background: #1a1a1a;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+}
+
+.custom-size span {
+    color: #00ff00;
+}
+
+#close-resize-popup {
+    padding: 8px 15px;
+    background: #1a1a1a;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    cursor: pointer;
+    transition: all 0.2s;
+    align-self: center;
+}
+
+#close-resize-popup:hover {
+    background: #00ff00;
+    color: #1a1a1a;
+}
+
+/* Görsellere tıklanabilir stil ekle */
+.ql-editor img {
+    cursor: pointer;
+}
+
+.ql-editor img:hover {
+    outline: 2px solid #00ff00;
+}
+
+/* Network status stilleri */
+.network-status {
+    color: #00ff00;
+    padding: 10px 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border-right: 1px solid #333;
+}
+
+.network-status i {
+    font-size: 14px;
+}
+
+/* Network menü stilleri */
+.network-menu {
+    position: absolute;
+    bottom: 40px;
+    right: 120px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 4px;
+    width: 200px;
+    display: none;
+    padding: 10px;
+}
+
+.network-menu.show {
+    display: block;
+}
+
+.network-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    color: #00ff00;
+    cursor: pointer;
+    border-bottom: 1px solid #333;
+    gap: 10px;
+}
+
+.network-item:last-child {
+    border-bottom: none;
+}
+
+.network-item:hover {
+    background: #333;
+}
+
+.network-item.connected {
+    background: #002200;
+}
+
+.signal-strength {
+    margin-left: auto;
+}
+
+.signal-strength i {
+    font-size: 12px;
+}
+
+/* Bağlantı yok ikonu için stil */
+.fa-wifi-slash {
+    color: #ff0000;
+}
+
+/* Hesap makinesi stilleri */
+.calculator {
+    border: 1px solid #364760;
+    border-radius: 5px;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #1a2432;
+}
+
+.calculator-screen {
+    width: 100%;
+    height: 80px;
+    border: none;
+    background-color: #2a3950;
+    color: #fff;
+    text-align: right;
+    padding-right: 20px;
+    padding-left: 10px;
+    font-size: 4rem;
+    border-radius: 5px 5px 0 0;
+}
+
+.calculator-keys {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 5px;
+    padding: 10px;
+}
+
+.calculator button {
+    height: 60px;
+    border: 1px solid #364760;
+    background-color: #2a3950;
+    font-size: 2rem;
+    color: #fff;
+    border-radius: 3px;
+    cursor: pointer;
+    outline: none;
+}
+
+.calculator button:hover {
+    background-color: #3a4960;
+}
+
+.calculator button:active {
+    background-color: #4a5970;
+}
+
+.equal-sign {
+    height: 100%;
+    grid-area: 2 / 4 / 6 / 5;
+    background-color: #4CAF50 !important;
+}
+
+.equal-sign:hover {
+    background-color: #45a049 !important;
+}
+
+.operator {
+    background-color: #364760 !important;
+}
+
+.operator:hover {
+    background-color: #465770 !important;
+}
+
+.all-clear {
+    background-color: #ff4444 !important;
+}
+
+.all-clear:hover {
+    background-color: #ff3333 !important;
+}
+
+/* Hesap makinesi pencere stilleri */
+#calculator-window {
+    display: none;
+    position: absolute;
+    width: 280px;
+    height: 380px;
+    background-color: #1a1a1a;
+    border: 1px solid #00ff00;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+}
+
+#calculator-window .window-header {
+    background-color: #1a1a1a;
+    border-bottom: 1px solid #00ff00;
+    padding: 5px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#calculator-window .window-title {
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#calculator-window .window-controls button {
+    background: none;
+    border: none;
+    color: #00ff00;
+    cursor: pointer;
+    margin-left: 5px;
+    padding: 2px 6px;
+}
+
+#calculator-window .window-controls button:hover {
+    background-color: #002200;
+}
+
+/* Hesap makinesi içerik stilleri */
+.calculator {
+    padding: 10px;
+    height: calc(100% - 20px);
+    background-color: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+}
+
+.calculator-screen {
+    width: calc(100% - 20px);
+    height: 40px;
+    margin-bottom: 10px;
+    background-color: #1a1a1a;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    text-align: right;
+    padding: 5px 10px;
+    font-size: 1.5rem;
+    font-family: 'Courier New', monospace;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.calculator-keys {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 5px;
+    flex: 1;
+}
+
+.calculator button {
+    background-color: #1a1a1a;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Operatör butonlarının yerleşimi */
+.operator:nth-child(1) { grid-area: 1 / 1; } /* + */
+.operator:nth-child(2) { grid-area: 1 / 2; } /* - */
+.operator:nth-child(3) { grid-area: 1 / 3; } /* × */
+.operator:nth-child(4) { grid-area: 1 / 4; } /* ÷ */
+
+/* Sayı butonlarının yerleşimi */
+button[value="7"] { grid-area: 2 / 1; }
+button[value="8"] { grid-area: 2 / 2; }
+button[value="9"] { grid-area: 2 / 3; }
+
+button[value="4"] { grid-area: 3 / 1; }
+button[value="5"] { grid-area: 3 / 2; }
+button[value="6"] { grid-area: 3 / 3; }
+
+button[value="1"] { grid-area: 4 / 1; }
+button[value="2"] { grid-area: 4 / 2; }
+button[value="3"] { grid-area: 4 / 3; }
+
+button[value="0"] { grid-area: 5 / 1; }
+button.decimal { grid-area: 5 / 2; }
+button.all-clear { grid-area: 5 / 3; }
+
+/* Eşittir butonu */
+.equal-sign {
+    grid-area: 2 / 4 / 6 / 5; /* 2. satırdan 6. satıra, 4. sütunda */
+    background-color: #002200 !important;
+}
+
+/* Pencere boyutu */
+#calculator-window {
+    width: 280px;
+    height: 380px;
+    min-width: 280px;
+    min-height: 380px;
+}
+
+/* Pencere içeriği */
+#calculator-window .window-content {
+    height: calc(100% - 30px);
+    padding: 0;
+}
+
+/* Tor Browser stilleri */
+#tor-window {
+    width: 800px;
+    height: 600px;
+    display: none;
+}
+
+.tor-browser {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #1a1a1a;
+}
+
+.tor-address-bar {
+    display: flex;
+    padding: 10px;
+    gap: 10px;
+    border-bottom: 1px solid #00ff00;
+}
+
+.tor-address-bar input {
+    flex: 1;
+    background: #1a1a1a;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    padding: 5px 10px;
+    font-family: 'Courier New', monospace;
+}
+
+.tor-address-bar button {
+    background: #1a1a1a;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    padding: 5px 15px;
+    cursor: pointer;
+}
+
+.tor-content {
+    flex: 1;
+    padding: 20px;
+    overflow: auto;
+}
+
+.tor-welcome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    color: #00ff00;
+    margin-top: 100px;
+}
+
+.tor-welcome i {
+    font-size: 48px;
+}
+
+/* Devre dışı ikon stili */
+.desktop-icon.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Doody Shop stilleri */
+#doody-shop-window {
+    width: 600px;
+    height: 500px;
+    display: none;
+}
+
+.shop-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.items-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    max-height: calc(100% - 60px);
+}
+
+.shop-item {
+    background: #1a1a1a;
+    border: 1px solid #00ff00;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s;
+}
+
+.shop-item:hover {
+    background: #002200;
+}
+
+.shop-item img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    margin-bottom: 5px;
+}
+
+.shop-item span {
+    color: #00ff00;
+    font-size: 12px;
+    font-family: 'Courier New', monospace;
+}
+
+.shop-controls {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    background: #1a1a1a;
+    border-top: 1px solid #00ff00;
+    position: sticky;
+    bottom: 0;
+}
+
+.shop-controls input {
+    flex: 1;
+    padding: 8px;
+    background: #1a1a1a;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+}
+
+.shop-controls button {
+    padding: 8px 20px;
+    background: #002200;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    cursor: pointer;
+}
+
+.shop-controls button:hover {
+    background: #003300;
+}
+
+/* Fiyat belirleme adımı için stiller */
+.price-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.selected-item-info {
+    background: rgba(0, 255, 0, 0.1);
+    padding: 15px;
+    border: 1px solid #00ff00;
+    margin-bottom: 20px;
+}
+
+.selected-item-info img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.selected-item-details {
+    flex: 1;
+}
+
+.selected-item-details h4 {
+    color: #00ff00;
+    margin: 0 0 5px 0;
+}
+
+.selected-item-details p {
+    color: #00ff00;
+    margin: 0;
+    font-size: 14px;
+}
+
+.price-input {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    background: #1a1a1a;
+    border-top: 1px solid #00ff00;
+    position: sticky;
+    bottom: 0;
+}
+
+/* Tor Browser listing stilleri */
+.tor-listings {
+    margin-top: 20px;
+    border-top: 1px solid #00ff00;
+    padding-top: 20px;
+}
+
+.tor-listing {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #002200;
+}
+
+.listing-link {
+    color: #00ff00;
+    cursor: pointer;
+}
+
+.shop-listing-details {
+    text-align: center;
+    padding: 20px;
+}
+
+.shop-listing-details img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-bottom: 20px;
+}
+
+.buy-button {
+    background: #00ff00;
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+/* Tor Listing stilleri */
+.tor-listing {
+    background: #1a1a1a;
+    border: 1px solid #00ff00;
+    margin-bottom: 15px;
+    padding: 15px;
+    cursor: pointer;
+}
+
+.listing-item {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.listing-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.listing-details {
+    flex: 1;
+}
+
+.listing-details h3 {
+    color: #00ff00;
+    margin: 0 0 5px 0;
+}
+
+.listing-price {
+    font-size: 1.2em;
+    color: #00ff00;
+    margin: 5px 0;
+}
+
+.listing-contact {
+    color: #666;
+    font-size: 0.9em;
+    margin: 5px 0;
+}
+
+/* Chat bölümü stilleri */
+.listing-chat {
+    margin-top: 15px;
+    border-top: 1px solid #333;
+    padding-top: 15px;
+}
+
+.chat-messages {
+    height: 200px;
+    overflow-y: auto;
+    padding: 10px;
+    background: rgba(0, 255, 0, 0.05);
+    margin-bottom: 10px;
+}
+
+.chat-message {
+    margin-bottom: 10px;
+    max-width: 80%;
+}
+
+.chat-message.outgoing {
+    margin-left: auto;
+    text-align: right;
+}
+
+.chat-message p {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 15px;
+    margin: 0;
+}
+
+.chat-message.outgoing p {
+    background: #002200;
+    color: #00ff00;
+}
+
+.chat-message.incoming p {
+    background: #220000;
+    color: #ff0000;
+}
+
+.message-time {
+    font-size: 0.8em;
+    color: #666;
+    margin: 0 5px;
+}
+
+.chat-input {
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 8px;
+    background: #1a1a1a;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+}
+
+.chat-input button {
+    padding: 8px 15px;
+    background: #002200;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    cursor: pointer;
+}
+
+.chat-input button:hover {
+    background: #003300;
+}
+
+/* Doody Shop adım stilleri */
+.shop-step {
+    height: calc(100% - 40px);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.shop-step h3 {
+    color: #00ff00;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: 'Courier New', monospace;
+}
+
+.selected-item-info {
+    background: rgba(0, 255, 0, 0.1);
+    padding: 15px;
+    border: 1px solid #00ff00;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.selected-item-info img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.selected-item-details {
+    flex: 1;
+}
+
+.selected-item-details h4 {
+    color: #00ff00;
+    margin: 0 0 5px 0;
+}
+
+.selected-item-details p {
+    color: #00ff00;
+    margin: 0;
+    font-size: 14px;
+}
+
+.price-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.price-input {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    background: #1a1a1a;
+    border-top: 1px solid #00ff00;
+    position: sticky;
+    bottom: 0;
+}
+
+.price-input input {
+    flex: 1;
+    padding: 10px;
+    background: #1a1a1a;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+}
+
+.price-input button {
+    padding: 10px 20px;
+    background: #002200;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    cursor: pointer;
+}
+
+.price-input button:hover {
+    background: #003300;
+}
+
+/* Seçili item stili */
+.shop-item.selected {
+    background: #002200;
+    border: 2px solid #00ff00;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+/* Tor Browser listing stilleri */
+.listings-container {
+    padding: 20px;
+}
+
+.listings-container h2 {
+    color: #00ff00;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: 'Courier New', monospace;
+}
+
+.listing-detail {
+    padding: 20px;
+}
+
+.listing-detail-header {
+    margin-bottom: 20px;
+}
+
+.back-to-store {
+    background: #1a1a1a;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    padding: 8px 15px;
+    cursor: pointer;
+}
+
+.listing-detail-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.listing-detail-content img {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+}
+
+.listing-detail-price {
+    font-size: 1.5em;
+    color: #00ff00;
+}
+
+.seller-info {
+    background: rgba(0, 255, 0, 0.1);
+    padding: 15px;
+    border: 1px solid #00ff00;
+    width: 100%;
+    text-align: center;
+}
+
+.seller-info p {
+    color: #00ff00;
+    margin: 5px 0;
+}
+
+.contact-seller {
+    background: #002200;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.contact-seller:hover {
+    background: #003300;
+}
+
+/* Bildirim stilini güncelle */
+.notification {
+    max-width: 300px;
+    word-break: break-all;
+}
+
+/* Tor Browser adres barı güncellemesi */
+.tor-address-bar {
+    display: flex;
+    padding: 10px;
+    gap: 10px;
+    border-bottom: 1px solid #00ff00;
+}
+
+.tor-address-bar .home-btn {
+    background: #1a1a1a;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    padding: 5px 15px;
+    cursor: pointer;
+}
+
+.tor-address-bar .home-btn:hover {
+    background: #002200;
+}
+
+/* Satıcı mail adresi stili */
+.seller-mail {
+    color: #00ff00;
+    font-size: 0.9em;
+    margin: 5px 0;
+    font-family: 'Courier New', monospace;
+}
+
+/* Shop page stilleri */
+.shop-page {
+    padding: 20px;
+}
+
+.shop-header {
+    margin-bottom: 30px;
+}
+
+.shop-header h2 {
+    color: #00ff00;
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: 'Courier New', monospace;
+}
+
+.shop-search {
+    margin-bottom: 15px;
+}
+
+.shop-search input {
+    width: 100%;
+    padding: 10px;
+    background: #1a1a1a;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+}
+
+.shop-filters {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.shop-filters select {
+    padding: 8px;
+    background: #1a1a1a;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    cursor: pointer;
+}
+
+.shop-filters select:focus {
+    outline: none;
+    border-color: #00ff00;
+}
+
+.shop-items {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Tor listing stilleri güncelleme */
+.tor-listing {
+    background: rgba(0, 255, 0, 0.05);
+    border: 1px solid #00ff00;
+    padding: 15px;
+    transition: all 0.2s;
+}
+
+.tor-listing:hover {
+    background: rgba(0, 255, 0, 0.1);
+}
+
+.delete-listing {
+    background: #330000;
+    border: 1px solid #ff0000;
+    color: #ff0000;
+    padding: 8px;
+    cursor: pointer;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.delete-listing:hover {
+    background: #440000;
+}
+
+.delete-listing i {
+    font-size: 16px;
+}
+
+/* NChat stilleri */
+#nchat-window {
+    width: 500px;
+    height: 600px;
+}
+
+.nchat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: #1a1a1a;
+}
+
+.nchat-header {
+    padding: 15px;
+    background: #222;
+    border-bottom: 1px solid #00ff00;
+    display: flex;
+    justify-content: space-between;
+}
+
+.room-code, .connection-status {
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+}
+
+.room-code span, .connection-status span {
+    font-weight: bold;
+}
+
+.nchat-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.message {
+    padding: 10px;
+    border-radius: 5px;
+    max-width: 80%;
+    word-break: break-word;
+}
+
+.message.received {
+    background: #222;
+    color: #00ff00;
+    align-self: flex-start;
+}
+
+.message.sent {
+    background: #002200;
+    color: #00ff00;
+    align-self: flex-end;
+}
+
+.message .sender {
+    font-size: 12px;
+    opacity: 0.7;
+    margin-bottom: 5px;
+}
+
+.nchat-input {
+    padding: 15px;
+    border-top: 1px solid #00ff00;
+    display: flex;
+    gap: 10px;
+}
+
+.message-input {
+    flex: 1;
+}
+
+.input-group {
+    display: flex;
+    gap: 5px;
+}
+
+.input-group input {
+    flex: 1;
+    padding: 10px;
+    background: #222;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+}
+
+.input-group .button-group {
+    display: flex;
+    gap: 5px;
+}
+
+.input-group button {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+.input-group .send-btn {
+    background: #002200;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+}
+
+.input-group .share-exact-location {
+    background: #002255;
+    border: 1px solid #0064ff;
+    color: #0064ff;
+}
+
+.input-group .share-area-location {
+    background: #552200;
+    border: 1px solid #ff8c00;
+    color: #ff8c00;
+}
+
+.location-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.location-buttons button {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.share-exact-location:hover {
+    background: #003377;
+}
+
+.share-area-location:hover {
+    background: #773300;
+}
+
+.nchat-input button i {
+    font-size: 16px;
+}

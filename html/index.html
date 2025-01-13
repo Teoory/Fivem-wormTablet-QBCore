@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>WormOS</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="desktop">
+            <!-- Masaüstü İkonları -->
+            <div class="desktop-icon" id="terminal-icon">
+                <i class="fas fa-terminal"></i>
+                <span>Terminal</span>
+            </div>
+            <div class="desktop-icon" id="chat-icon">
+                <i class="fas fa-comments"></i>
+                <span>Chat</span>
+            </div>
+            <div class="desktop-icon" id="mail-icon">
+                <i class="fas fa-envelope"></i>
+                <span>Mail</span>
+            </div>
+            <div class="desktop-icon" id="firewall-icon">
+                <i class="fas fa-shield-alt"></i>
+                <span>pbaS V1.5.1</span>
+            </div>
+            <div class="desktop-icon" data-window="calculator">
+                <i class="fas fa-calculator"></i>
+                <span>Hesap Makinesi</span>
+            </div>
+            <div class="desktop-icon" data-window="tor" id="tor-icon">
+                <i class="fas fa-globe"></i>
+                <span>Tor Browser</span>
+            </div>
+
+            <!-- Terminal Penceresi -->
+            <div class="window" id="terminal-window">
+                <div class="window-header">
+                    <div class="window-title">Terminal</div>
+                    <div class="window-controls">
+                        <button class="minimize-btn"><i class="fas fa-minus"></i></button>
+                        <button class="maximize-btn"><i class="fas fa-square"></i></button>
+                        <button class="close-btn"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <div class="terminal-wrapper">
+                        <div class="terminal-output-wrapper">
+                            <div id="terminal-output" class="terminal-output">
+        WormOS v1.0.0<br>
+Komutları görmek için 'help' yazın.<br>
+                            </div>
+                        </div>
+                        <div class="terminal-input-line">
+                            <span class="prompt">root@worm:~$</span>
+                            <input type="text" id="terminal-input" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Penceresi -->
+            <div class="window" id="chat-window">
+                <div class="window-header">
+                    <div class="window-title">Chat</div>
+                    <div class="window-controls">
+                        <button class="minimize-btn"><i class="fas fa-minus"></i></button>
+                        <button class="maximize-btn"><i class="fas fa-square"></i></button>
+                        <button class="close-btn"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <div class="chat-container">
+                        <div class="chat-messages" id="chat-messages">
+                            <!-- Mesajlar buraya gelecek -->
+                        </div>
+                        <div class="chat-input-container">
+                            <input type="text" id="chat-input" placeholder="Mesajınızı yazın...">
+                            <button id="chat-send"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- City Database penceresi -->
+            <div class="window" id="city-db-window" style="display: none;">
+                <div class="window-header">
+                    <div class="window-title">City Database</div>
+                    <div class="window-controls">
+                        <button class="minimize-btn"><i class="fas fa-minus"></i></button>
+                        <button class="maximize-btn"><i class="fas fa-square"></i></button>
+                        <button class="close-btn"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <div class="city-db-container">
+                        <div class="search-bar">
+                            <input type="text" id="city-db-search" placeholder="Ad, Soyad veya Telefon Numarası ile ara...">
+                        </div>
+                        <div class="citizens-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Ad Soyad</th>
+                                        <th>Telefon</th>
+                                        <th>Citizen ID</th>
+                                        <th>Durum</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="citizens-list">
+                                    <!-- Veriler JavaScript ile doldurulacak -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Login Window -->
+            <div class="window" id="login-window" style="display: none;">
+                <div class="window-header">
+                    <div class="window-title">Login</div>
+                    <div class="window-controls">
+                        <button class="close-btn"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <div class="auth-form">
+                        <input type="text" id="login-username" placeholder="Kullanıcı Adı">
+                        <input type="password" id="login-password" placeholder="Şifre">
+                        <button id="login-submit">Giriş Yap</button>
+                        <div id="login-error" class="error-message"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Register Window -->
+            <div class="window" id="register-window" style="display: none;">
+                <div class="window-header">
+                    <div class="window-title">Register</div>
+                    <div class="window-controls">
+                        <button class="close-btn"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <div class="auth-form">
+                        <input type="text" id="register-username" placeholder="Kullanıcı Adı">
+                        <input type="password" id="register-password" placeholder="Şifre">
+                        <input type="password" id="register-password-confirm" placeholder="Şifre Tekrar">
+                        <button id="register-submit">Kayıt Ol</button>
+                        <div id="register-error" class="error-message"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mail Window -->
+            <div class="window" id="mail-window">
+                <div class="window-header">
+                    <div class="window-title">Mail</div>
+                    <div class="window-controls">
+                        <button class="minimize-btn"><i class="fas fa-minus"></i></button>
+                        <button class="maximize-btn"><i class="fas fa-square"></i></button>
+                        <button class="close-btn"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <div class="mail-container">
+                        <div class="mail-sidebar">
+                            <button id="new-mail-btn"><i class="fas fa-plus"></i> Yeni Mail</button>
+                            <div class="mail-list" id="mail-list">
+                                <!-- Mailler buraya gelecek -->
+                            </div>
+                        </div>
+                        <div class="mail-content">
+                            <div class="mail-compose" style="display: none;">
+                                <div class="mail-header">
+                                    <div class="mail-to">
+                                        <input type="text" id="mail-to-username" placeholder="Kullanıcı adı">
+                                        <span class="mail-domain">@ksl.info.com</span>
+                                    </div>
+                                    <input type="text" id="mail-subject" placeholder="Konu">
+                                </div>
+                                <div class="mail-editor">
+                                    <div id="mail-editor-container"></div>
+                                </div>
+                                <!-- Görsel URL popup -->
+                                <div class="image-url-popup" style="display: none;">
+                                    <div class="image-url-content">
+                                        <input type="text" id="image-url-input" placeholder="Görsel URL'si girin">
+                                        <div class="image-url-buttons">
+                                            <button id="add-image-btn">Ekle</button>
+                                            <button id="cancel-image-btn">İptal</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mail-actions">
+                                    <button id="send-mail-btn">Gönder</button>
+                                    <button id="cancel-mail-btn">İptal</button>
+                                </div>
+                            </div>
+                            <div class="mail-view">
+                                <!-- Mail detayları buraya gelecek -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Taskbar -->
+            <div class="taskbar">
+                <div class="start-menu">
+                    <i class="fas fa-power-off"></i>
+                </div>
+                <div class="taskbar-items"></div>
+                <div class="network-status">
+                    <i class="fas fa-wifi-slash"></i> Bağlı değil
+                </div>
+                <!-- Ağ menüsü -->
+                <div class="network-menu">
+                    <div class="network-item" id="network-TC8717T10">
+                        <i class="fas fa-wifi"></i>
+                        <span>TC8717T10</span>
+                        <div class="signal-strength">
+                            <i class="fas fa-signal"></i>
+                        </div>
+                    </div>
+                    <div class="network-item" id="network-doody">
+                        <i class="fas fa-wifi"></i>
+                        <span>doody</span>
+                        <div class="signal-strength">
+                            <i class="fas fa-signal"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="taskbar-firewall">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="taskbar-time"></div>
+            </div>
+
+            <!-- Firewall penceresini güncelle -->
+            <div class="window" id="firewall-window">
+                <div class="window-header">
+                    <div class="window-title">pbaS V1.5.1 Güvenlik Duvarı</div>
+                    <div class="window-controls">
+                        <button class="minimize-btn"><i class="fas fa-minus"></i></button>
+                        <button class="maximize-btn"><i class="fas fa-square"></i></button>
+                        <button class="close-btn"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <div class="firewall-container">
+                        <div class="firewall-status">
+                            <div class="status-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="status-info">
+                                <h3>pbaS V1.5.1</h3>
+                                <p class="status-text">Durum: <span class="status-value">Devre Dışı</span></p>
+                            </div>
+                        </div>
+                        <div class="firewall-settings">
+                            <button id="firewall-toggle" class="toggle-btn">Bağlan</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hesap Makinesi penceresi -->
+            <div id="calculator-window" class="window">
+                <div class="window-header">
+                    <div class="window-title"><i class="fas fa-calculator"></i> Hesap Makinesi</div>
+                    <div class="window-controls">
+                        <button class="minimize-btn"><i class="fas fa-minus"></i></button>
+                        <button class="maximize-btn"><i class="fas fa-square"></i></button>
+                        <button class="close-btn"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <div class="calculator">
+                        <input type="text" class="calculator-screen" value="0" disabled />
+                        <div class="calculator-keys">
+                            <button class="operator" value="+">+</button>
+                            <button class="operator" value="-">-</button>
+                            <button class="operator" value="*">×</button>
+                            <button class="operator" value="/">÷</button>
+
+                            <button value="7">7</button>
+                            <button value="8">8</button>
+                            <button value="9">9</button>
+
+                            <button value="4">4</button>
+                            <button value="5">5</button>
+                            <button value="6">6</button>
+
+                            <button value="1">1</button>
+                            <button value="2">2</button>
+                            <button value="3">3</button>
+
+                            <button value="0">0</button>
+                            <button class="decimal" value=".">.</button>
+                            <button class="all-clear" value="all-clear">AC</button>
+
+                            <button class="equal-sign" value="=">=</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tor Browser penceresi -->
+            <div id="tor-window" class="window">
+                <div class="window-header">
+                    <div class="window-title"><i class="fas fa-globe"></i> Tor Browser</div>
+                    <div class="window-controls">
+                        <button class="minimize-btn"><i class="fas fa-minus"></i></button>
+                        <button class="maximize-btn"><i class="fas fa-square"></i></button>
+                        <button class="close-btn"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <div class="tor-browser">
+                        <div class="tor-address-bar">
+                            <input type="text" placeholder="Onion adresini girin...">
+                            <button><i class="fas fa-arrow-right"></i></button>
+                        </div>
+                        <div class="tor-content">
+                            <div class="tor-welcome">
+                                <i class="fas fa-globe"></i>
+                                <h2>Tor Browser'a Hoş Geldiniz</h2>
+                                <p>Güvenli ve anonim gezinti için Tor ağındasınız.</p>
+                                <p>Store adresine girebilirsiniz veya terminalden doody-shop uygulamasından mağazaya ürün ekleyebilirsiniz.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Doody Shop penceresi -->
+            <div id="doody-shop-window" class="window">
+                <div class="window-header">
+                    <div class="window-title">Doody Shop</div>
+                    <div class="window-controls">
+                        <button class="minimize-btn"><i class="fas fa-minus"></i></button>
+                        <button class="maximize-btn"><i class="fas fa-square"></i></button>
+                        <button class="close-btn"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <!-- Adım 1: Ürün Seçimi -->
+                    <div class="shop-step" id="step-1">
+                        <h3>Ürün Seçimi</h3>
+                        <div class="shop-container">
+                            <div id="doody-shop-items" class="items-grid"></div>
+                            <div class="shop-controls">
+                                <input type="number" id="doody-shop-amount" placeholder="Miktar" min="1">
+                                <button id="doody-shop-next">Devam Et</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Adım 2: Fiyat Belirleme -->
+                    <div class="shop-step" id="step-2" style="display: none;">
+                        <h3>Fiyat Belirleme</h3>
+                        <div class="price-container">
+                            <div class="selected-item-info"></div>
+                            <div class="price-input">
+                                <input type="number" id="doody-shop-price" placeholder="Fiyat">
+                                <button id="doody-shop-save">Kaydet</button>
+                                <button id="doody-shop-back">Geri</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NChat penceresi -->
+            <div id="nchat-window" class="window">
+                <div class="window-header">
+                    <div class="window-title">NChat</div>
+                    <div class="window-controls">
+                        <button class="minimize-btn"><i class="fas fa-minus"></i></button>
+                        <button class="maximize-btn"><i class="fas fa-square"></i></button>
+                        <button class="close-btn"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <div class="nchat-container">
+                        <div class="nchat-header">
+                            <div class="room-code">Oda Kodu: <span>Bağlanılıyor...</span></div>
+                            <div class="connection-status">Durum: <span>Bağlanılıyor...</span></div>
+                        </div>
+                        <div class="nchat-messages"></div>
+                        <div class="nchat-input">
+                            <div class="input-group">
+                                <input type="text" placeholder="Mesajınızı yazın...">
+                                <div class="button-group">
+                                    <button class="send-btn" id="send-message-btn" title="Mesaj Gönder">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </button>
+                                    <button class="share-exact-location" id="share-exact-location-btn" title="Tam Konum Paylaş">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </button>
+                                    <button class="share-area-location" id="share-area-location-btn" title="Alan Konumu Paylaş">
+                                        <i class="fas fa-circle"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
